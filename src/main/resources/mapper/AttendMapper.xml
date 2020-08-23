@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.manager.dao.AttendMapper">
+  <resultMap id="BaseResultMap" type="com.abc.manager.entity.Attend">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="time" jdbcType="DATE" property="time" />
+    <result column="phonenum" jdbcType="VARCHAR" property="phonenum" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+  </resultMap>
+  <insert id="insert" parameterType="com.abc.manager.entity.Attend">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into attend (username, status, time,
+      phonenum, role)
+    values (#{username,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{time,jdbcType=DATE},
+      #{phonenum,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, status, time, phonenum, role
+    from attend
+  </select>
+  <update id="updateById" >
+    update  attend SET status=#{status} where id=#{id}
+  </update>
+  <select id="selectByStatus"  resultMap="BaseResultMap">
+    select * from attend where status=#{status} and role=#{role};
+  </select>
+  <select id="findById" parameterType="int" resultMap="BaseResultMap">
+    select * from attend where id=#{id}
+  </select>
+
+  <select id="findByName" parameterType="string" resultMap="BaseResultMap">
+    select * from attend where username=#{username}
+  </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.abc.manager.dao.EmpMapper">
+  <resultMap id="BaseResultMap" type="com.abc.manager.entity.Emp">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phonenum" jdbcType="VARCHAR" property="phonenum" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+  </resultMap>
+  <insert id="insert" parameterType="com.abc.manager.entity.Emp">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into emp (id,username, password, phonenum,sex, role)
+    values (#{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phonenum,jdbcType=VARCHAR},
+      #{sex,jdbcType=CHAR}, #{role,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, `password`, phonenum, sex, `role`
+    from emp
+  </select>
+
+  <update id="updateById" parameterType="com.abc.manager.entity.Emp">
+     update emp set username = #{username}, password = #{password},  phonenum = #{phonenum},sex = #{sex} where id = #{id}
+  </update>
+
+  <update id="updateByIdAdmin" parameterType="com.abc.manager.entity.Emp">
+    update emp set username = #{username}, password = #{password},  phonenum = #{phonenum},sex = #{sex},
+    role=#{role} where id = #{id}
+  </update>
+
+  <select id="selectById" parameterType="int" resultType="com.abc.manager.entity.Emp">
+    SELECT id,username,password,phonenum,sex,role from emp where id=#{id}
+  </select>
+
+  <select id="login"  parameterType="int" resultType="com.abc.manager.entity.Emp">
+    SELECT id,username,password,phonenum,sex,role from emp where id=#{id}
+  </select>
+
+  <select id="getPassword"  parameterType="string" resultType="String">
+    SELECT password FROM emp where username=#{username}
+  </select>
+
+  <select id="getRoleByUsername"  parameterType="string" resultType="Integer">
+    SELECT role FROM emp where username=#{username}
+  </select>
+
+  <select id="getCount"  parameterType="string" resultType="Integer">
+    SELECT COUNT(*) FROM emp where username=#{username}
+  </select>
+</mapper>

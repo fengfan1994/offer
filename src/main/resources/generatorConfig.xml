@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--���������ļ���Ϊ�����ȡ���ݿ���Ϣ׼��-->
+    <properties resource="application.properties"/>
+
+    <!--defaultModelType="flat" �������ֶΣ����ֱ� -->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="autoDelimitKeywords" value="true" />
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+        <property name="javaFileEncoding" value="utf-8" />
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <!-- ע�� -->
+        <commentGenerator >
+            <property name="suppressAllComments" value="true"/><!-- �Ƿ�ȡ��ע�� -->
+            <property name="suppressDate" value="true" /> <!-- �Ƿ�����ע�ʹ�ʱ���-->
+        </commentGenerator>
+        
+        <!--���ݿ����ӵ�ַ�˺�����-->
+        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
+        </jdbcConnection>
+        
+        <!-- ����ת�� -->
+        <javaTypeResolver>
+            <!-- �Ƿ�ʹ��bigDecimal�� false���Զ�ת���������ͣ�Long, Integer, Short, etc.�� -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--����Model����λ��-->
+        <javaModelGenerator targetPackage="com.abc.manager.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- ����mapxml�ļ� -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" >
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- ����mapxml��Ӧclient��Ҳ���ǽӿ�dao -->
+        <javaClientGenerator targetPackage="com.abc.manager.dao" targetProject="src/main/java" type="XMLMAPPER" >
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <table tableName="emp" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+        <table tableName="attend" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true" />
+        </table>
+
+    </context>
+</generatorConfiguration>
